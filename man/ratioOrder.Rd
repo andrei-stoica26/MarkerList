@@ -4,10 +4,10 @@
 \alias{ratioOrder}
 \title{Order markers decreasingly by ratio}
 \usage{
-ratioOrder(df)
+ratioOrder(markers)
 }
 \arguments{
-\item{df}{A data frame generated using FindMarkers}
+\item{markers}{A data frame generated using FindMarkers}
 }
 \value{
 A data frame of markers ordered decreasingly by pct.ratio (pct.1 / pct.2)

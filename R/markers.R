@@ -1,6 +1,6 @@
 #' @importClassesFrom Seurat Seurat
 #' @importFrom MatrixGenerics rowMaxs
-#' @importFrom qs qsave
+#' @importFrom qs2 qs_save
 #' @importFrom Seurat FindMarkers
 #'
 NULL
@@ -10,16 +10,16 @@ NULL
 #' This function calculates pct.ratio (pct.1 / pct.2) for a data frame generated
 #' using FindMarkers, then used it to order the data frame decreasingly.
 #'
-#' @param df A data frame generated using FindMarkers
+#' @param markers A data frame generated using FindMarkers
 #'
 #' @return A data frame of markers ordered decreasingly by pct.ratio (pct.1 / pct.2)
 #'
 #' @export
 #'
-ratioOrder <- function(df){
+ratioOrder <- function(markers){
   markers$pct.ratio <- markers$pct.1 / markers$pct.2
-  df <- df[order(df$pct.ratio, decreasing=TRUE), ]
-  return(df)
+  markers <- markers[order(markers$pct.ratio, decreasing=TRUE), ]
+  return(markers)
 }
 
 #' Generate markers of Seurat identity classes and order them decreasingly
@@ -68,7 +68,7 @@ allMarkers <- function(seuratObj, objectName = NULL, group.by = 'seurat_clusters
     return(orderedFindMarkers(seuratObj, ident.1 = x, ...))
   })
   if (!is.null(objectName))
-    qsave(allMarkers, paste0(objectName, 'AllMarkers.qs'))
+    qs_save(allMarkers, paste0(objectName, 'AllMarkers.qs'))
   return(allMarkers)
 }
 
@@ -151,6 +151,5 @@ removeRepeatedMarkers <- function(markerList){
   df <- subset(df, Freq == 1)
   exclusiveMarkers <- df$Var1
   res <- lapply(markerList, function(x) x[intersect(rownames(x), exclusiveMarkers), ])
-  return(res)
+  return (res)
 }
-
